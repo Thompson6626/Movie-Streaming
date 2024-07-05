@@ -4,6 +4,7 @@ package com.movie.movie_streaming.auth;
 
 import com.movie.movie_streaming.email.EmailService;
 import com.movie.movie_streaming.email.EmailTemplateName;
+import com.movie.movie_streaming.exceptions.UserNotFoundException;
 import com.movie.movie_streaming.exceptions.UsernameAlreadyTakenException;
 import com.movie.movie_streaming.security.JwtService;
 import com.movie.movie_streaming.user.Token;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.movie.movie_streaming.role.Role.ADMIN;
+import static com.movie.movie_streaming.role.Role.USER;
 
 
 @Service
@@ -58,7 +59,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .accountLocked(false)
                 .enabled(false)
-                .role(ADMIN)
+                .role(USER)
                 .build();
 
         userRepository.save(user);
@@ -116,8 +117,10 @@ public class AuthenticationService {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Token has expired. New token has been sent.");
         }
-        var user = userRepository.findById(savedToken.getUser().getId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        var id = savedToken.getUser().getId();
+
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
         user.setEnabled(true);
         userRepository.save(user);

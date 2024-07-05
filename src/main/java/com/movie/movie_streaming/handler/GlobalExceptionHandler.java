@@ -12,6 +12,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashSet;
@@ -105,7 +106,7 @@ public class GlobalExceptionHandler {
             ActorNotFoundException.class,
             UsernameNotFoundException.class
     })
-    public ResponseEntity<ExceptionResponse> handleException(EntityNotFoundException exp){
+    public <T extends EntityNotFoundException> ResponseEntity<ExceptionResponse> handleException(T exp){
         return ResponseEntity.status(NOT_FOUND).body(
                 ExceptionResponse.builder()
                         .error(exp.getMessage())
@@ -118,7 +119,7 @@ public class GlobalExceptionHandler {
             UsernameAlreadyTakenException.class,
             EmailAlreadyTakenException.class
     })
-    public ResponseEntity<ExceptionResponse> handleException(RuntimeException exp){
+    public <T extends RuntimeException> ResponseEntity<ExceptionResponse> handleException(T exp){
         return ResponseEntity.status(CONFLICT).body(
                 ExceptionResponse.builder()
                         .error(exp.getMessage())

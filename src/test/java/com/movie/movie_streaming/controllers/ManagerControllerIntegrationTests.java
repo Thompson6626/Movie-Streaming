@@ -3,15 +3,17 @@ package com.movie.movie_streaming.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.movie_streaming.TestUtils;
 import com.movie.movie_streaming.comment.Comment;
+import com.movie.movie_streaming.comment.CommentRepository;
+import com.movie.movie_streaming.comment.dto.PostCommentRequest;
 import com.movie.movie_streaming.exceptions.MovieNotFoundException;
 import com.movie.movie_streaming.movie.Genre;
-import com.movie.movie_streaming.user.User;
 import com.movie.movie_streaming.movie.Movie;
 import com.movie.movie_streaming.movie.MovieRepository;
 import com.movie.movie_streaming.movie.MovieServiceImpl;
 import com.movie.movie_streaming.movie.dto.SaveMovieRequest;
 import com.movie.movie_streaming.movie.dto.UpdateMovieRequest;
 import com.movie.movie_streaming.person.dto.PersonRequest;
+import com.movie.movie_streaming.user.User;
 import com.movie.movie_streaming.user.UserRepository;
 import org.instancio.Instancio;
 import org.instancio.junit.InstancioExtension;
@@ -26,12 +28,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,6 +56,7 @@ public class ManagerControllerIntegrationTests {
     private final ObjectMapper objectMapper;
     private final MovieServiceImpl movieService;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
     private final MovieRepository movieRepository;
     @Autowired
     public ManagerControllerIntegrationTests(
@@ -60,12 +64,14 @@ public class ManagerControllerIntegrationTests {
             ObjectMapper objectMapper,
             MovieServiceImpl movieService,
             UserRepository userRepository,
+            CommentRepository commentRepository,
             MovieRepository movieRepository
     ) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
         this.movieService = movieService;
         this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
         this.movieRepository = movieRepository;
     }
     @WithSettings
@@ -156,23 +162,19 @@ public class ManagerControllerIntegrationTests {
         userRepository.save(user);
 
         SaveMovieRequest request = Instancio.create(SaveMovieRequest.class);
+
         movieService.saveMovie(request);
 
-        Movie movie = movieRepository.findById(1)
+        Movie movie = movieRepository.findByIdWithComments(1)
                 .orElseThrow(() -> new MovieNotFoundException(1));
 
-        Comment comment = Comment.builder()
-                .stars(5.0)
-                .body("This is a great movie")
-                .movie(movie)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .createdBy(user.getRealUserName())
-                .build();
+        Comment comment = TestUtils.generateComment();
+
+        comment.setMovie(movie);
+        comment.setCreatedBy(user.getRealUserName());
 
         movie.getComments().add(comment);
         movieRepository.save(movie);
-
 
         mockMvc.perform(delete("/manager/comments/1"))
                         .andExpect(status().isOk());

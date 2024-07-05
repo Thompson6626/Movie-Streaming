@@ -82,7 +82,7 @@ public class UserControllerIntegrationTests {
                 )
                 .andExpect(status().isOk());
 
-        Optional<User> found = userRepository.findById(1);
+        Optional<User> found = userRepository.findByUsername(user.getRealUserName());
 
         assertThat(found)
                 .isPresent()
@@ -147,7 +147,7 @@ public class UserControllerIntegrationTests {
                 .principal(authentication)
         ).andExpect(status().isOk());
 
-        Optional<User> found = userRepository.findById(1);
+        Optional<User> found = userRepository.findByUsername(user.getRealUserName());
         assertThat(found)
                 .isPresent()
                 .get()
@@ -172,7 +172,7 @@ public class UserControllerIntegrationTests {
                 .principal(authentication)
         ).andExpect(status().isOk());
 
-        Optional<User> found = userRepository.findById(1);
+        Optional<User> found = userRepository.findByUsername(user.getRealUserName());
         assertThat(found)
                 .isPresent()
                 .get()

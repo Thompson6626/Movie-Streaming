@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
@@ -25,20 +26,22 @@ public class PersonService {
     public PageResponse<PersonResponse> findAllDirectorsWith(int page, int size, String firstName, String lastName) {
         return findAllWith(directorRepository,page,size,firstName,lastName);
     }
-    public <T extends Person> PageResponse<PersonResponse> findAllWith(
-            JpaSpecificationExecutor<T> repository,
-            int page, int size,
+
+
+    private <T extends Person,R extends JpaRepository<T,Integer> & JpaSpecificationExecutor<T>> PageResponse<PersonResponse> findAllWith(
+            R repository,
+            int page,
+            int size,
             String firstName, String lastName
     ) {
-        if (firstName == null && lastName == null) {
-            throw new IllegalArgumentException("You must provide either a first name or a last name.");
+        Pageable pageable = PageRequest.of(page,size);
+        Page<T> people;
+        if (firstName == null && lastName == null){
+            people = repository.findAll(pageable);
+        }else{
+            Specification<T> spec = buildSpecification(firstName, lastName);
+            people = repository.findAll(spec, pageable);
         }
-
-        Specification<T> spec = buildSpecification(firstName, lastName);
-        Pageable pageable = PageRequest.of(page, size);
-
-        Page<T> people = repository.findAll(spec, pageable);
-
         return Utils.generatePageResponse(people,personMapper::toPersonResponse);
     }
 
@@ -47,9 +50,9 @@ public class PersonService {
         if (firstName != null && lastName != null) {
             spec = PersonSpecifications.hasFullName(firstName.trim(), lastName.trim());
         } else {
-            String nonNull = (firstName == null ? lastName : firstName).trim();
-            spec = PersonSpecifications.<T>hasFirstName(nonNull)
-                    .or(PersonSpecifications.hasLastName(nonNull));
+            String name = (firstName == null ? lastName : firstName).trim();
+            spec = PersonSpecifications.<T>hasFirstName(name)
+                    .or(PersonSpecifications.hasLastName(name));
         }
         return spec;
     }

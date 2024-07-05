@@ -21,4 +21,14 @@ public interface UserRepository extends JpaRepository<User,Integer> {
         ORDER BY m.yearReleased DESC
         """)
     Page<Movie> findFavouritesByUser(@Param("userId") Integer userId, Pageable pageable);
+
+    @Query("""
+            SELECT u 
+            FROM User u 
+            LEFT JOIN FETCH u.favourites
+            WHERE u.id = :userId
+            """)
+    Optional<User> findByIdWithFavourites(@Param("userId") Integer userId);
+
+
 }
