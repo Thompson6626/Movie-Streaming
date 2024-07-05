@@ -1,0 +1,11 @@
+application:
+   security:
+      jwt:
+         expiration: 36000
+         secret-key: secrettt
+   mailing:
+      frontend:
+         activation-url: "http://randomurl.com"
+token:
+   expiration-minutes: 4
+   chars: "0123456789"

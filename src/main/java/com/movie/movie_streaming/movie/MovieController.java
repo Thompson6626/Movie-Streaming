@@ -60,7 +60,6 @@ public class MovieController {
     public ResponseEntity<MovieDisplay> findById(
             @PathVariable(name = "id") Integer id
     ){
-
         return ResponseEntity.ok(movieService.findMovieById(id));
     }
     @PostMapping("/{id}/comments")

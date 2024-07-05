@@ -29,4 +29,5 @@ public class Comment extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "movie_id")
     private Movie movie;
+
 }

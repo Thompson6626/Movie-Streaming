@@ -51,15 +51,35 @@ public class Movie {
     @Enumerated(EnumType.STRING)
     private Set<Genre> genres;
 
-    @ManyToMany(mappedBy = "moviesDirected",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @ManyToMany(
+            mappedBy = "moviesDirected",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.MERGE
+    )
     @EqualsAndHashCode.Exclude
     private Set<Director> directors;
-    @ManyToMany(mappedBy = "moviesActed",fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+
+    @ManyToMany(
+            mappedBy = "moviesActed",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.MERGE
+    )
     @EqualsAndHashCode.Exclude
     private Set<Actor> actors;
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(
+            mappedBy = "movie",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
     @EqualsAndHashCode.Exclude
     private List<Comment> comments;
+
+    @PreRemove
+    public void removeActorAssociations(){
+        this.actors.forEach(a -> a.getMoviesInternal().remove(this));
+        this.directors.forEach(d -> d.getMoviesInternal().remove(this));
+    }
     @Transient
     public double getAvgCommentStars(){
         if (comments == null || comments.isEmpty()) {
