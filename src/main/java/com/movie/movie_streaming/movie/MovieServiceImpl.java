@@ -99,6 +99,7 @@ public class MovieServiceImpl implements MovieService{
     public MovieDisplay findMovieById(Integer id) {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new MovieNotFoundException(id));
+
         MovieDisplay display = movieMapper.toDisplay(movie);
 
         Page<Comment> page = commentRepository.findAllWithMovieId(
@@ -166,10 +167,6 @@ public class MovieServiceImpl implements MovieService{
 
         Comment comment = commentMapper.toComment(request);
         comment.setMovie(movie);
-
-        movieRepository.save(movie);
-
-        movie.getComments().add(comment);
 
         comment = commentRepository.save(comment);
 

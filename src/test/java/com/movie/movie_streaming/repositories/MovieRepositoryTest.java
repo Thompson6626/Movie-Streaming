@@ -1,4 +1,4 @@
-package com.movie.movie_streaming.unit.repositories;
+package com.movie.movie_streaming.repositories;
 
 
 import com.movie.movie_streaming.movie.Genre;

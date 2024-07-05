@@ -68,30 +68,29 @@ public class CommentControllerIntegrationTests {
         SaveMovieRequest request = Instancio.create(SaveMovieRequest.class);
         movieService.saveMovie(request);
 
-        Movie movie = movieRepository.findById(1)
+        Movie movie = movieRepository.findByIdWithComments(1)
                 .orElseThrow(() -> new MovieNotFoundException(1));
 
-        Comment comment = Comment.builder()
-                .stars(5.0)
-                .body("This is a great movie")
-                .movie(movie)
-                .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
-                .createdBy(user.getRealUserName())
-                .build();
+        Comment comment = TestUtils.generateComment();
+
+        comment.setMovie(movie);
+        comment.setCreatedBy(user.getRealUserName());
+
         movie.getComments().add(comment);
+
         movie = movieRepository.save(movie);
+
         comment = movie.getComments().get(0);
 
         LocalDateTime createdDate = comment.getCreatedDate();
         LocalDateTime prevLastModified = comment.getLastModifiedDate();
 
 
-        UpdateCommentRequest updateRequest = new UpdateCommentRequest(1,"This a GREAT movie!!");
+        UpdateCommentRequest updateRequest = new UpdateCommentRequest("This a GREAT movie!!");
         String jsonReq = objectMapper.writeValueAsString(updateRequest);
 
 
-        mockMvc.perform(patch("/comments")
+        mockMvc.perform(patch("/comments/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonReq)
                 .principal(authentication)
@@ -104,7 +103,7 @@ public class CommentControllerIntegrationTests {
         SecurityContextHolder.clearContext();
 
 
-        movie = movieRepository.findById(1)
+        movie = movieRepository.findByIdWithComments(1)
                 .orElseThrow(() -> new MovieNotFoundException(1));
 
         comment = movie.getComments().get(0);

@@ -1,6 +1,7 @@
 package com.movie.movie_streaming;
 
 
+import com.movie.movie_streaming.comment.Comment;
 import com.movie.movie_streaming.role.Role;
 import com.movie.movie_streaming.user.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,14 @@ public class TestUtils {
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .role(Role.USER)
+                .build();
+    }
+    public static Comment generateComment(){
+        return Comment.builder()
+                .stars(5.0)
+                .body("This is a great movie")
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
                 .build();
     }
     public static Authentication setAuthentication(User user){

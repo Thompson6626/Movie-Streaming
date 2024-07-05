@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,10 +18,13 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
-    public CommentDisplay updateComment(UpdateCommentRequest request, Authentication authentication) {
+    public CommentDisplay updateComment(
+            UpdateCommentRequest request,
+            Integer commentId,
+            Authentication authentication) {
 
-        Comment comment = commentRepository.findById(request.id())
-                .orElseThrow(() -> new CommentNotFoundException(request.id()));
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException(commentId));
 
         User user = (User) authentication.getPrincipal();
 

@@ -1,4 +1,4 @@
-package com.movie.movie_streaming.unit.mappers;
+package com.movie.movie_streaming.mappers;
 
 
 

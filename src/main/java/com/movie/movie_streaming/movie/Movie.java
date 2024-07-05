@@ -70,7 +70,7 @@ public class Movie {
             mappedBy = "movie",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @EqualsAndHashCode.Exclude
     private List<Comment> comments;

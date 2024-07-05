@@ -1,10 +1,7 @@
 package com.movie.movie_streaming.common;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,10 +17,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class BaseEntity {
 
     @Id
     @GeneratedValue
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @CreatedDate

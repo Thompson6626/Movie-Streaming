@@ -1,4 +1,4 @@
-package com.movie.movie_streaming.unit.repositories;
+package com.movie.movie_streaming.repositories;
 
 
 

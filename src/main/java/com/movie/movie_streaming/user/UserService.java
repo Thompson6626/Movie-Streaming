@@ -27,6 +27,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
+
+    @Transactional
     public void changePassword(ChangePasswordRequest request, Authentication connectedUser) {
 
         User user = (User) connectedUser.getPrincipal();
@@ -42,7 +44,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-
+    @Transactional(readOnly = true)
     public PageResponse<MovieResponse> findAllFavourites(int page, int size, Authentication authentication) {
         Pageable pageable = PageRequest.of(page,size);
         int userId = ((User) authentication.getPrincipal()).getId();
@@ -54,6 +56,11 @@ public class UserService {
     @Transactional
     public void addToFavourites(Integer movieId,Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+
+        int id = user.getId();
+
+        user = userRepository.findByIdWithFavourites(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
@@ -68,6 +75,11 @@ public class UserService {
     @Transactional
     public void removeFromFavourites(Integer movieId, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        int id = user.getId();
+
+        user = userRepository.findByIdWithFavourites(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
 

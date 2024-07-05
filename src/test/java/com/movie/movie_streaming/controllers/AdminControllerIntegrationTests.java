@@ -64,7 +64,7 @@ public class AdminControllerIntegrationTests {
 
         String jsonReq = objectMapper.writeValueAsString(updateRoleRequest);
 
-        mockMvc.perform(put("/admin/users/1/role")
+        mockMvc.perform(put("/admin/users/2/role")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonReq))
                 .andExpect(status().isOk());
