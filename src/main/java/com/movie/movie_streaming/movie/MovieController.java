@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/movies")
 @RequiredArgsConstructor
@@ -41,7 +43,8 @@ public class MovieController {
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ){
-        return ResponseEntity.ok(movieService.findAllMovies(page, size));
+        var responses = movieService.findAllMovies(page, size);
+        return ResponseEntity.ok(responses);
     }
 
     @Operation(
@@ -62,7 +65,8 @@ public class MovieController {
     public ResponseEntity<MovieDisplay> findById(
             @PathVariable(name = "id") Integer id
     ){
-        return ResponseEntity.ok(movieService.findMovieById(id));
+        var display = movieService.findMovieById(id);
+        return ResponseEntity.ok(display);
     }
     @Operation(
             summary = "Add a comment to the movie with the given id",
@@ -83,7 +87,8 @@ public class MovieController {
             @Valid @RequestBody PostCommentRequest request,
             @PathVariable("id") Integer movieId
     ){
-        return ResponseEntity.ok(movieService.addCommentToMovie(request,movieId));
+        var display = movieService.addCommentToMovie(request,movieId);
+        return ResponseEntity.status(CREATED).body(display);
     }
     @Operation(
             summary = "Search for movies",
@@ -101,7 +106,8 @@ public class MovieController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @RequestParam(name = "s") @NotBlank String searchTerm
     ){
-        return ResponseEntity.ok(movieService.findAllMoviesWithSearchTerm(page, size,searchTerm));
+        var responses = movieService.findAllMoviesWithSearchTerm(page, size,searchTerm);
+        return ResponseEntity.ok(responses);
     }
     @Operation(
             summary = "Get movies by genres",
@@ -119,7 +125,8 @@ public class MovieController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @RequestParam(name = "genres") Set<Genre> genres
     ){
-        return ResponseEntity.ok(movieService.findAllMoviesWithGenres(page, size,genres));
+        var responses = movieService.findAllMoviesWithGenres(page, size,genres);
+        return ResponseEntity.ok(responses);
     }
     @Operation(
             summary = "Get movies by actor",
@@ -141,7 +148,8 @@ public class MovieController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @PathVariable("id") Integer id
     ){
-        return ResponseEntity.ok(movieService.findAllMoviesWithActor(page, size,id));
+        var responses = movieService.findAllMoviesWithActor(page, size,id);
+        return ResponseEntity.ok(responses);
     }
     @Operation(
             summary = "Get movies by director",
@@ -163,6 +171,7 @@ public class MovieController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @PathVariable("id") Integer id
     ){
-        return ResponseEntity.ok(movieService.findAllMoviesByDirector(page, size,id));
+        var responses = movieService.findAllMoviesByDirector(page, size,id) ;
+        return ResponseEntity.ok(responses);
     }
 }

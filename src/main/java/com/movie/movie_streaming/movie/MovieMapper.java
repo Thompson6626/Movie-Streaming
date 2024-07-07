@@ -40,7 +40,6 @@ public class MovieMapper {
                 .build();
     }
     public MovieDisplay toDisplay(Movie movie){
-
         return MovieDisplay.builder()
                 .title(movie.getTitle())
                 .synopsis(movie.getSynopsis())

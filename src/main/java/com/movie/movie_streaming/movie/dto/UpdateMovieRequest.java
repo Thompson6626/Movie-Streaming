@@ -8,10 +8,12 @@ import com.movie.movie_streaming.person.dto.PersonRequest;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
 import java.time.Year;
 import java.util.Set;
 
+@Builder
 public record UpdateMovieRequest(
         @NullOrNotBlank(message = "Title cannot be blank")
         String title,

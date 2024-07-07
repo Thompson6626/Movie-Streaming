@@ -72,9 +72,8 @@ public class UserController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             Authentication authentication
     ){
-
-
-        return ResponseEntity.ok(userService.findAllFavourites(page, size,authentication));
+        var responses = userService.findAllFavourites(page, size,authentication);
+        return ResponseEntity.ok(responses);
     }
     @Operation(
             summary = "Add to Favourites",
@@ -102,7 +101,7 @@ public class UserController {
             Authentication authentication
     ){
         userService.addToFavourites(movieId,authentication);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
     @Operation(
             summary = "Remove from Favourites",
@@ -130,7 +129,7 @@ public class UserController {
             Authentication authentication
     ){
         userService.removeFromFavourites(movieId,authentication);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(
@@ -154,8 +153,9 @@ public class UserController {
             @RequestBody UpdateUsernameRequest request,
             Authentication connectedUser
     ){
+        
         userService.changeUsername(request,connectedUser);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
     @Operation(
             summary = "Change Email",
@@ -179,7 +179,7 @@ public class UserController {
             Authentication connectedUser
     ){
         userService.changeEmail(request,connectedUser);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 public interface MovieService {
 
     MovieDisplay saveMovie(SaveMovieRequest request);
-    String deleteById(Integer id);
+    void deleteById(Integer id);
     MovieDisplay updateMovie(Integer id, UpdateMovieRequest request);
     MovieDisplay findMovieById(Integer id);
     PageResponse<MovieResponse> findAllMovies(int page, int size);

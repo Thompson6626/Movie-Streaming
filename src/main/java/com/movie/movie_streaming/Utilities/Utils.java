@@ -10,7 +10,6 @@ import java.util.function.Function;
 
 public class Utils {
 
-
     public static <T, R> PageResponse<R> generatePageResponse(
             Page<T> page,
             Function<T, R> mapper

@@ -39,7 +39,7 @@ public class AdminController {
                     )
             }
     )
-    @PutMapping("/users/{userId}/role")
+    @PatchMapping("/users/{userId}/role")
     public ResponseEntity<?> updateUserAuthorities(
             @PathVariable("userId") Integer userId,
             @Valid @RequestBody UpdateRoleRequest request

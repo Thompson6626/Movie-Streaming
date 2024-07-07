@@ -3,6 +3,7 @@ package com.movie.movie_streaming.movie.dto;
 
 
 import com.movie.movie_streaming.comment.dto.CommentDisplay;
+import com.movie.movie_streaming.common.PageResponse;
 import com.movie.movie_streaming.person.dto.PersonDisplay;
 import lombok.*;
 
@@ -33,5 +34,5 @@ public class MovieDisplay {
     private Set<String> genres;
     private Set<PersonDisplay> directors;
     private Set<PersonDisplay> actors;
-    private List<CommentDisplay> comments;
+    private PageResponse<CommentDisplay> comments;
 }

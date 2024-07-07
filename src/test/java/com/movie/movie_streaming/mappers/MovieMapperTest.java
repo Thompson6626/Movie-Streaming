@@ -81,7 +81,6 @@ public class MovieMapperTest {
         assertEquals(movie.getDuration(),display.getDuration());
         assertEquals(movie.getRating().name(),display.getRating());
         assertEquals(movie.getYearReleased().getValue(),display.getYearReleased());
-        //assertEquals(movie.getComments().size(), display.getComments().size());
         assertEquals(movie.getActors().size(), display.getActors().size());
         assertEquals(movie.getDirectors().size(), display.getDirectors().size());
         assertThat(movie.getGenres()).containsExactlyInAnyOrderElementsOf(mapped);

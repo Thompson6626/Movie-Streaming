@@ -1,6 +1,7 @@
 package com.movie.movie_streaming.movie;
 
 import com.movie.movie_streaming.Utilities.QuadFunction;
+import com.movie.movie_streaming.Utilities.Utils;
 import com.movie.movie_streaming.actor.Actor;
 import com.movie.movie_streaming.actor.ActorRepository;
 import com.movie.movie_streaming.comment.Comment;
@@ -108,11 +109,8 @@ public class MovieServiceImpl implements MovieService{
                         Sort.by("createdDate").descending())
         );
 
-        display.setComments(
-                page.stream()
-                .map(commentMapper::toDisplay)
-                .collect(Collectors.toList())
-        );
+        display.setComments(generatePageResponse(page,commentMapper::toDisplay));
+
         return display;
     }
     @Override
@@ -222,12 +220,11 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public String deleteById(Integer movieId) {
+    public void deleteById(Integer movieId) {
         if(!movieRepository.existsById(movieId)){
             throw new MovieNotFoundException(movieId);
         }
         movieRepository.deleteById(movieId);
-        return "Movie deleted succesfully.";
     }
 
     private Pageable generatePageableSortedByDate(int page, int size){
