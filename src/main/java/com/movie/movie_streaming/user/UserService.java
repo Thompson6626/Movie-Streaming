@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService {
 
     private final PasswordEncoder passwordEncoder;
@@ -28,7 +29,6 @@ public class UserService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
-    @Transactional
     public void changePassword(ChangePasswordRequest request, Authentication connectedUser) {
 
         User user = (User) connectedUser.getPrincipal();
@@ -53,7 +53,6 @@ public class UserService {
         return Utils.generatePageResponse(movies,movieMapper::toResponse);
     }
 
-    @Transactional
     public void addToFavourites(Integer movieId,Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
@@ -72,7 +71,6 @@ public class UserService {
         user.getFavourites().add(movie);
         userRepository.save(user);
     }
-    @Transactional
     public void removeFromFavourites(Integer movieId, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         int id = user.getId();
@@ -91,7 +89,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
+
     public void changeUsername(UpdateUsernameRequest request, Authentication connectedUser){
         User user = (User) connectedUser.getPrincipal();
         if (userRepository.findByUsername(request.newUsername()).isPresent()){
@@ -101,7 +99,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
+
     public void changeEmail(UpdateEmailRequest request, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         if (userRepository.findByEmail(request.newEmail()).isPresent()){

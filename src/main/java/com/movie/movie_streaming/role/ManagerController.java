@@ -65,8 +65,9 @@ public class ManagerController {
             }
     )
     @DeleteMapping("/movies/{id}")
-    public ResponseEntity<String> deleteMovie(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(movieService.deleteById(id));
+    public ResponseEntity<?> deleteMovie(@PathVariable("id") Integer id){
+        movieService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
     @Operation(
             summary = "Update a movie",
@@ -116,6 +117,6 @@ public class ManagerController {
             @PathVariable("id") Integer id
     ){
         commentService.forceDeleteComment(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }

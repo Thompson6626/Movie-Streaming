@@ -21,7 +21,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

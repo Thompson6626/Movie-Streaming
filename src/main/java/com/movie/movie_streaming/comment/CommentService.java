@@ -34,7 +34,8 @@ public class CommentService {
 
         comment.setBody(request.body());
 
-        return commentMapper.toDisplay(commentRepository.save(comment));
+        comment = commentRepository.save(comment);
+        return commentMapper.toDisplay(comment);
     }
     public void forceDeleteComment(Integer id) {
         if (!commentRepository.existsById(id)){

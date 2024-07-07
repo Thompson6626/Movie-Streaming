@@ -35,7 +35,8 @@ public class PersonController {
             @RequestParam(name = "first-name", required = false) String firstName,
             @RequestParam(name = "last-name", required = false) String lastName
     ){
-        return ResponseEntity.ok(personService.findAllActorsWith(page, size,firstName,lastName));
+        var pageResponse = personService.findAllActorsWith(page, size,firstName,lastName);
+        return ResponseEntity.ok(pageResponse);
     }
     @Operation(
             summary = "Find all directors",
@@ -54,7 +55,8 @@ public class PersonController {
             @RequestParam(name = "first-name", required = false) String firstName,
             @RequestParam(name = "last-name", required = false) String lastName
     ){
-        return ResponseEntity.ok(personService.findAllDirectorsWith(page, size,firstName,lastName));
+        var pageResponse = personService.findAllDirectorsWith(page, size,firstName,lastName);
+        return ResponseEntity.ok(pageResponse);
     }
 
 
