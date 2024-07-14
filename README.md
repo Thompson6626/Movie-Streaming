@@ -64,7 +64,9 @@ To use the admin and manager endpoints, follow these steps:
 1. Send a request to the authentication endpoint:
 2. Use the following JSON in the request body:
 ```json
-{
-    "email": "adminemail@gmail.com",
-    "password": "password1"
-}
+   {
+       "email": "adminemail@gmail.com",
+       "password": "password1"
+   }
+```
+3. This will return back a token you can use as the bearer token.
