@@ -55,3 +55,16 @@ To set up the backend of the Movie Streaming project, follow these steps:
 5. Access the API documentation using Swagger UI:
 
 Open a web browser and go to `http://localhost:8088/swagger-ui/index.html.
+
+
+### Accessing Admin and Manager Endpoints
+
+To use the admin and manager endpoints, follow these steps:
+
+1. Send a request to the authentication endpoint:
+2. Use the following JSON in the request body:
+```json
+{
+    "email": "adminemail@gmail.com",
+    "password": "password1"
+}
