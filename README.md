@@ -16,7 +16,7 @@ The backend of my movie streaming project is responsible for handling all server
 - **Instancio**: A powerful library for generating test data and objects, simplifying the creation of complex data structures during testing.
 - **JUnit**: A widely-used testing framework for Java applications, providing a structured way to write and run repeatable tests.
 - **AssertJ**: A fluent assertion library for Java, offering a rich and readable API for writing assertions in tests.
-- **Mockito**: A popular mocking framework for Java, enabling the creation of mock objects and verification of interactions in unit tests.
+- **Mockito**: A popular mocking framework, enabling the creation of mock objects and verification of interactions in unit tests.
 
 
 ## Setup Instructions
