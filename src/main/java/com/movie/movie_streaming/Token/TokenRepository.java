@@ -1,4 +1,4 @@
-package com.movie.movie_streaming.user;
+package com.movie.movie_streaming.Token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

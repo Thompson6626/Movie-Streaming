@@ -1,8 +1,13 @@
 package com.movie.movie_streaming;
 
+import com.movie.movie_streaming.Utilities.init.InitObjects;
+import com.movie.movie_streaming.movie.MovieRepository;
+import com.movie.movie_streaming.movie.MovieService;
 import com.movie.movie_streaming.role.Role;
 import com.movie.movie_streaming.user.User;
 import com.movie.movie_streaming.user.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,17 +29,11 @@ public class MovieStreaminApiApplication {
 	}
 
 	@Bean
-	public CommandLineRunner runner(UserRepository userRepository) {
-		return args -> userRepository.save(
-				User.builder()
-						.username("admin")
-						.email("adminemail@gmail.com")
-						.password(new BCryptPasswordEncoder().encode("password1"))
-						.createdDate(LocalDateTime.now())
-						.accountLocked(false)
-						.enabled(true)
-						.role(Role.ADMIN)
-						.build());
+	public CommandLineRunner runner(UserRepository userRepository,MovieService movieService) {
+		return args -> {
+			userRepository.save(InitObjects.admin());
+			InitObjects.movies().forEach(movieService::saveMovie);
+		};
 	}
 
 

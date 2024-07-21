@@ -3,7 +3,7 @@ package com.movie.movie_streaming.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.movie_streaming.role.AdminService;
-import com.movie.movie_streaming.role.UpdateRoleRequest;
+import com.movie.movie_streaming.role.dto.UpdateRoleRequest;
 import org.instancio.Instancio;
 import org.instancio.junit.InstancioExtension;
 import org.junit.jupiter.api.Test;

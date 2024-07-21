@@ -3,7 +3,7 @@ package com.movie.movie_streaming.services;
 import com.movie.movie_streaming.exceptions.UserNotFoundException;
 import com.movie.movie_streaming.role.AdminService;
 import com.movie.movie_streaming.role.Role;
-import com.movie.movie_streaming.role.UpdateRoleRequest;
+import com.movie.movie_streaming.role.dto.UpdateRoleRequest;
 import com.movie.movie_streaming.user.User;
 import com.movie.movie_streaming.user.UserRepository;
 import org.junit.jupiter.api.Test;

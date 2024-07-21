@@ -2,6 +2,7 @@ package com.movie.movie_streaming.role;
 
 
 import com.movie.movie_streaming.exceptions.UserNotFoundException;
+import com.movie.movie_streaming.role.dto.UpdateRoleRequest;
 import com.movie.movie_streaming.user.User;
 import com.movie.movie_streaming.user.UserRepository;
 import lombok.RequiredArgsConstructor;
