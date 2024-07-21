@@ -1,4 +1,4 @@
-package com.movie.movie_streaming.role;
+package com.movie.movie_streaming.role.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

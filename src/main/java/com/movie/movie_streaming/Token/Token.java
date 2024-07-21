@@ -1,6 +1,7 @@
-package com.movie.movie_streaming.user;
+package com.movie.movie_streaming.Token;
 
 
+import com.movie.movie_streaming.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
